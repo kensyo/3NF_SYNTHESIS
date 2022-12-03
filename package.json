@@ -1,0 +1,12 @@
+{
+  "name": "3NF_SYNTHESIS",
+  "version": "1.0.0",
+  "description": "synthesis algorithm",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": "https://github.com/kensyo/3NF_SYNTHESIS",
+  "author": "kensyo",
+  "license": "MIT"
+}

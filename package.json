@@ -4,9 +4,12 @@
   "description": "synthesis algorithm",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "jest"
   },
   "repository": "https://github.com/kensyo/3NF_SYNTHESIS",
   "author": "kensyo",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  }
 }

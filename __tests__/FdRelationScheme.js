@@ -17,7 +17,7 @@ test('sample relation test', () => {
 });
 
 test('Fd range test', () => {
-  function throwRangeError() {
+  function throw_range_error() {
     const test_relation_scheme = new FdRelationScheme(
       'test',
       ['A', 'B', 'C'],
@@ -28,5 +28,5 @@ test('Fd range test', () => {
     )
   }
 
-  expect(throwRangeError).toThrowError(RangeError)
+  expect(throw_range_error).toThrowError(RangeError)
 })

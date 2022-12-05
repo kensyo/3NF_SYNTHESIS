@@ -4,7 +4,7 @@
   "description": "synthesis algorithm",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "repository": "https://github.com/kensyo/3NF_SYNTHESIS",
   "author": "kensyo",

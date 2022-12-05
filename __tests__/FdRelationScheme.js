@@ -11,9 +11,9 @@ test('sample relation test', () => {
       { lhs: ['A', 'B'], rhs: ['C'] },
       { lhs: ['C'], rhs: ['A'] }
     ]
-  );
+  )
 
-  expect(test_relation_scheme.fds[0]).toStrictEqual({ lhs: ['A', 'B'], rhs: ['C'] });
+  expect(test_relation_scheme.fds[0]).toStrictEqual({ lhs: ['A', 'B'], rhs: ['C'] })
 });
 
 test('Fd range test', () => {
@@ -25,7 +25,7 @@ test('Fd range test', () => {
         { lhs: ['A', 'B'], rhs: ['C'] },
         { lhs: ['C'], rhs: ['D'] }
       ]
-    );
+    )
   }
 
   expect(throwRangeError).toThrowError(RangeError)

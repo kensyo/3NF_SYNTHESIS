@@ -4,16 +4,17 @@ const FDRS = require('../lib/FdRelationScheme')
 const FdRelationScheme = FDRS.FdRelationScheme
 
 test('sample relation test', () => {
+  const fd = { lhs: new Set(['A', 'B']), rhs: new Set(['C']) }
   const test_relation_scheme = new FdRelationScheme(
     'test',
     ['A', 'B', 'C'],
     [
-      { lhs: ['A', 'B'], rhs: ['C'] },
-      { lhs: ['C'], rhs: ['A'] }
+      fd,
+      { lhs: new Set(['C']), rhs: new Set(['A']) }
     ]
   )
 
-  expect(test_relation_scheme.fds[0]).toStrictEqual({ lhs: ['A', 'B'], rhs: ['C'] })
+  expect(Array.from(test_relation_scheme.fds)[0]).toStrictEqual({lhs: new Set(['A', 'B']), rhs: new Set(['C'])})
 });
 
 test('Fd range test', () => {
@@ -41,8 +42,8 @@ test('Find the closure of a determinant(lhs))', () => {
     ]
   )
 
-  expect(R1.find_closure_of_attributes(['A', 'B']).sort()).toStrictEqual(['A', 'B', 'C'])
-  expect(R1.find_closure_of_attributes(['C']).sort()).toStrictEqual(['A', 'C'])
+  expect(R1.find_closure_of_attributes(['A', 'B'])).toStrictEqual(new Set(['A', 'B', 'C']))
+  expect(R1.find_closure_of_attributes(['C'])).toStrictEqual(new Set(['A', 'C']))
 })
 
 test('Check if a given fds is equivalent to the original', () => {

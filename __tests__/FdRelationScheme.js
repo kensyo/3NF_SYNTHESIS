@@ -14,7 +14,7 @@ test('sample relation test', () => {
     ]
   )
 
-  expect(Array.from(test_relation_scheme.fds)[0]).toStrictEqual({lhs: new Set(['A', 'B']), rhs: new Set(['C'])})
+  expect(Array.from(test_relation_scheme.fds)[0]).toStrictEqual({ lhs: new Set(['A', 'B']), rhs: new Set(['C']) })
 });
 
 test('Fd range test', () => {
@@ -64,7 +64,7 @@ test('Check if a given fds is equivalent to the original', () => {
 
 })
 
-test('Check if two relation schemes are the same', () => {
+test('Check if two relation schemes are equivalent', () => {
   const R1 = new FdRelationScheme(
     'test',
     ['A', 'B', 'C'],
@@ -93,8 +93,8 @@ test('Check if two relation schemes are the same', () => {
     ]
   )
 
-  expect(FDRS.is_equal(R1, R2)).toBe(true)
-  expect(FDRS.is_equal(R1, R3)).toBe(false)
+  expect(FDRS.is_equivalent(R1, R2)).toBe(true)
+  expect(FDRS.is_equivalent(R1, R3)).toBe(false)
 
   const R4 = new FdRelationScheme(
     'tttt',
@@ -112,8 +112,8 @@ test('Check if two relation schemes are the same', () => {
     ]
   )
 
-  expect(FDRS.is_equal(R3, R4)).toBe(false)
-  expect(FDRS.is_equal(R3, R5)).toBe(false)
+  expect(FDRS.is_equivalent(R3, R4)).toBe(false)
+  expect(FDRS.is_equivalent(R3, R5)).toBe(false)
 })
 
 test('Find a minimal cover', () => {

@@ -116,6 +116,31 @@ test('Check if two relation schemes are equivalent', () => {
   expect(FDRS.is_equivalent(R3, R5)).toBe(false)
 })
 
+test('check the fds of a scheme is a minimal cover', () => {
+  const R1 = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C', 'D'],
+    [
+      { lhs: ['A', 'B'], rhs: ['C'] },
+      { lhs: ['C'], rhs: ['D'] }
+    ]
+  )
+
+  expect(R1.has_minimal_cover()).toBe(true)
+
+  const R2 = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C', 'D'],
+    [
+      { lhs: ['A', 'B'], rhs: ['C', 'D'] },
+      { lhs: ['C'], rhs: ['D'] }
+    ]
+  )
+
+  expect(R2.has_minimal_cover()).toBe(false)
+
+})
+
 test('Find a minimal cover', () => {
   const R1 = new FdRelationScheme(
     'test',

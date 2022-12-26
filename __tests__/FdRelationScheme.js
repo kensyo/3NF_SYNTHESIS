@@ -126,7 +126,7 @@ test('check the fds of a scheme is a minimal cover', () => {
     ]
   )
 
-  expect(R1.has_minimal_cover()).toBe(true)
+  expect(R1.is_minimal()).toBe(true)
 
   const R2 = new FdRelationScheme(
     'test',
@@ -137,7 +137,7 @@ test('check the fds of a scheme is a minimal cover', () => {
     ]
   )
 
-  expect(R2.has_minimal_cover()).toBe(false)
+  expect(R2.is_minimal()).toBe(false)
 
 })
 

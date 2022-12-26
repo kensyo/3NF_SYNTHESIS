@@ -144,12 +144,14 @@ test('check the fds of a scheme is a minimal cover', () => {
 test('Find a minimal cover', () => {
   const R1 = new FdRelationScheme(
     'test',
-    ['A', 'B', 'C'],
+    ['A', 'B', 'C', 'D'],
     [
-      { lhs: ['A', 'B'], rhs: ['C'] },
-      { lhs: ['C'], rhs: ['A'] }
+      { lhs: ['A', 'B'], rhs: ['C', 'D'] },
+      { lhs: ['C'], rhs: ['D'] }
     ]
   )
+
+  expect(R1.is_minimal()).toBe(false)
 
   const minimal_cover_of_R1 = R1.find_minimal_cover()
 
@@ -159,28 +161,9 @@ test('Find a minimal cover', () => {
     minimal_cover_of_R1
   )
 
-  // step1
-  expect(FDRS.is_equal(R1, R2)).toBe(true)
-  // step2
-  expect(R2.fds.every(fd => fd.rhs.length === 1)).toBe(true)
+  expect(R1.is_minimal()).toBe(false)
+  expect(R2.is_minimal()).toBe(true)
 
-  // step3
-  const deep_copy_of_minimal_cover_of_R1 = JSON.parse(JSON.stringify(minimal_cover_of_R1))
-  for (const fd of deep_copy_of_minimal_cover_of_R1) {
-    for (const attr of fd.lhs) {
-      const original_lhs = fd.lhs
-      const reduced_lhs = fd.lhs.filter(val => val !== attr)
-      fd.lhs = reduced_lhs
+  console.log(R2.fds)
 
-      expect(R2.check_fds_are_equivalent(deep_copy_of_minimal_cover_of_R1)).toBe(false)
-
-      fd.lhs = original_lhs
-    }
-  }
-
-  // step4
-  for (const fd of deep_copy_of_minimal_cover_of_R1) {
-    const reduced_fds = deep_copy_of_minimal_cover_of_R1.filter(val => val !== fd)
-    expect(R2.check_fds_are_equivalent(reduced_fds)).toBe(false)
-  }
 })

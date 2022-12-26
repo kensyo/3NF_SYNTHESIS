@@ -164,6 +164,22 @@ test('Find a minimal cover', () => {
   expect(R1.is_minimal()).toBe(false)
   expect(R2.is_minimal()).toBe(true)
 
-  console.log(R2.fds)
+  const R3 = new FdRelationScheme(
+    'test2',
+    ['A', 'B', 'C'],
+    [
+      { lhs: ['A'], rhs: ['B', 'C'] },
+      { lhs: ['B'], rhs: ['C'] },
+      { lhs: ['C'], rhs: ['B'] }
+    ]
+  )
 
+  const R4 = new FdRelationScheme(
+    R3.name,
+    R3.attributes,
+    R3.find_minimal_cover()
+  )
+
+  expect(R3.is_minimal()).toBe(false)
+  expect(R4.is_minimal()).toBe(true)
 })

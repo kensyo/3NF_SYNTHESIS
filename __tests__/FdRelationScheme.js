@@ -211,6 +211,29 @@ test('Find all the keys', () => {
 
   const keys_array = [...keys]
   expect(set_operation.is_equal(keys_array[0], keys_array[1])).toBe(false)
+
+  const R2 = new FdRelationScheme(
+    'test2',
+    ['I', 'A', 'S'],
+    [
+      { lhs: ['I', 'A'], rhs: ['S'] },
+      { lhs: ['S'], rhs: ['A'] },
+    ]
+  )
+
+  const keys2 = R2.find_all_keys()
+
+  expect(keys2.size).toBe(2)
+
+  for (const key of keys2) {
+    expect(
+      set_operation.is_equal(key, new Set(['I', 'A'])) ||
+      set_operation.is_equal(key, new Set(['I', 'S']))
+    ).toBe(true)
+  }
+
+  const keys2_array = [...keys2]
+  expect(set_operation.is_equal(keys2_array[0], keys2_array[1])).toBe(false)
 })
 
 test('Is in 3NF?', () => {

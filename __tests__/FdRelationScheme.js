@@ -268,3 +268,17 @@ test('Is in 3NF?', () => {
   expect(R3.is_in_3NF()).toBe(true)
 
 })
+
+test('Is in BCNF?', () => {
+  const R1 = new FdRelationScheme(
+    'test_bcnf',
+    ['A', 'B', 'C'],
+    [
+      { lhs: ['A', 'B'], rhs: ['C'] },
+      { lhs: ['C'], rhs: ['B'] },
+    ]
+  )
+
+  expect(R1.is_in_3NF()).toBe(true)
+  expect(R1.is_in_BCNF()).toBe(false)
+})

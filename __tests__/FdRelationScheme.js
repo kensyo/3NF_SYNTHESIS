@@ -2,6 +2,7 @@
 
 const FDRS = require('../lib/FdRelationScheme')
 const FdRelationScheme = FDRS.FdRelationScheme
+const set_operation = require('../lib/util').set_operation
 
 test('sample relation test', () => {
   const fd = { lhs: new Set(['A', 'B']), rhs: new Set(['C']) }
@@ -182,4 +183,32 @@ test('Find a minimal cover', () => {
 
   expect(R3.is_minimal()).toBe(false)
   expect(R4.is_minimal()).toBe(true)
+})
+
+test('Find all the keys', () => {
+  const R1 = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C', 'D', 'E'],
+    [
+      { lhs: ['A'], rhs: ['C'] },
+      { lhs: ['B'], rhs: ['C', 'D'] },
+      { lhs: ['C'], rhs: ['E'] },
+      { lhs: ['E'], rhs: ['C'] },
+      { lhs: ['D'], rhs: ['B'] }
+    ]
+  )
+
+  const keys = R1.find_all_keys()
+
+  expect(keys.size).toBe(2)
+
+  for (const key of keys) {
+    expect(
+      set_operation.is_equal(key, new Set(['A', 'B'])) ||
+      set_operation.is_equal(key, new Set(['A', 'D']))
+    ).toBe(true)
+  }
+
+  const keys_array = [...keys]
+  expect(set_operation.is_equal(keys_array[0], keys_array[1])).toBe(false)
 })

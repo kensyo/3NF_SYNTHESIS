@@ -1,6 +1,7 @@
 'use strict'
 
 const FDRS = require('../lib/FdRelationScheme')
+const FdRelationScheme = FDRS.FdRelationScheme
 
 test('generate a fd', () => {
   function throw_type_error1() {
@@ -36,6 +37,32 @@ test('generate a fd', () => {
 
   expect(FDRS.generate_fd(fd1)).toBe(FDRS.generate_fd(fd2))
 });
+
+test('generate a fd relation scheme', () => {
+  const test_relation_scheme = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C'],
+    [
+      [['A', 'B'], ['C']]
+    ]
+  )
+
+  expect(JSON.parse([...test_relation_scheme.fds][0])).toStrictEqual([['A', 'B'], ['C']])
+
+  function throw_range_error() {
+    const test_relation_scheme2 = new FdRelationScheme(
+      'test2',
+      ['A', 'B', 'C'],
+      [
+        [['A', 'B'], ['C']],
+        [['C'], ['D']]
+      ]
+    )
+  }
+
+  expect(throw_range_error).toThrowError(RangeError)
+
+})
 
 // const FDRS = require('../lib/FdRelationScheme')
 // const FdRelationScheme = FDRS.FdRelationScheme

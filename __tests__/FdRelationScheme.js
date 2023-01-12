@@ -64,6 +64,20 @@ test('generate a fd relation scheme', () => {
 
 })
 
+test('Find the closure of attributes', () => {
+  const R1 = new FdRelationScheme(
+    'test_closure',
+    ['A', 'B', 'C'],
+    [
+      [['A', 'B'], ['C']],
+      [['C'], ['A']]
+    ]
+  )
+
+  expect(R1.find_closure_of_attributes(['A', 'B'])).toStrictEqual(new Set(['A', 'B', 'C']))
+  expect(R1.find_closure_of_attributes(['C'])).toStrictEqual(new Set(['A', 'C']))
+})
+
 // const FDRS = require('../lib/FdRelationScheme')
 // const FdRelationScheme = FDRS.FdRelationScheme
 // const set_operation = require('../lib/util').set_operation

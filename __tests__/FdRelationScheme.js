@@ -78,6 +78,24 @@ test('Find the closure of attributes', () => {
   expect(R1.find_closure_of_attributes(['C'])).toStrictEqual(new Set(['A', 'C']))
 })
 
+test('Check if a given fds is equivalent to the original', () => {
+  const R1 = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C'],
+    [
+      [['A', 'B'], ['C']],
+      [['C'], ['B']],
+      [['A'], ['B']]
+    ]
+  )
+
+  expect(R1.check_fds_are_equivalent([
+    [['A'], ['C']],
+    [['C'], ['B']]
+  ])).toBe(true)
+
+})
+
 // const FDRS = require('../lib/FdRelationScheme')
 // const FdRelationScheme = FDRS.FdRelationScheme
 // const set_operation = require('../lib/util').set_operation

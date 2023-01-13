@@ -96,6 +96,31 @@ test('Check if a given fds is equivalent to the original', () => {
 
 })
 
+test('check the fds of a scheme is a minimal cover', () => {
+  const R1 = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C', 'D'],
+    [
+      [['A', 'B'], ['C']],
+      [['C'], ['D']]
+    ]
+  )
+
+  expect(R1.is_minimal()).toBe(true)
+
+  const R2 = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C', 'D'],
+    [
+      [['A', 'B'], ['C', 'D']],
+      [['C'], ['D']]
+    ]
+  )
+
+  expect(R2.is_minimal()).toBe(false)
+
+})
+
 // const FDRS = require('../lib/FdRelationScheme')
 // const FdRelationScheme = FDRS.FdRelationScheme
 // const set_operation = require('../lib/util').set_operation

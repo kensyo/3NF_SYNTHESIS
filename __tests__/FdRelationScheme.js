@@ -121,6 +121,74 @@ test('check the fds of a scheme is a minimal cover', () => {
 
 })
 
+test('Find a minimal cover', () => {
+  const R1 = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C', 'D'],
+    [
+      [['A', 'B'], ['C', 'D']],
+      [['C'], ['D']]
+    ]
+  )
+
+  expect(R1.is_minimal()).toBe(false)
+
+  const minimal_cover_of_R1 = R1.find_minimal_cover()
+
+  const R2 = new FdRelationScheme(
+    R1.name,
+    R1.attributes,
+    minimal_cover_of_R1
+  )
+
+  expect(R1.is_minimal()).toBe(false)
+  expect(R2.is_minimal()).toBe(true)
+
+  const R3 = new FdRelationScheme(
+    'test2',
+    ['A', 'B', 'C'],
+    [
+      [['A'], ['B', 'C']],
+      [['B'], ['C']],
+      [['C'], ['B']]
+    ]
+  )
+
+  const R4 = new FdRelationScheme(
+    R3.name,
+    R3.attributes,
+    R3.find_minimal_cover()
+  )
+
+  expect(R3.is_minimal()).toBe(false)
+  expect(R4.is_minimal()).toBe(true)
+
+  const R5 = new FdRelationScheme(
+    'test4minimal',
+    ['B', 'C', 'D'],
+    [
+      [['B'], ['B', 'C', 'D']],
+      [['C'], ['C']],
+      [['B', 'C'], ['B', 'C', 'D']],
+      [['D'], ['D']],
+      [['B', 'D'], ['B', 'C', 'D']],
+      [['C', 'D'], ['C', 'D']],
+      [['B', 'C', 'D'], ['B', 'C', 'D']]
+    ]
+  )
+
+  const R6 = new FdRelationScheme(
+    R5.name,
+    R5.attributes,
+    R5.find_minimal_cover()
+  )
+
+  expect(R5.is_minimal()).toBe(false)
+  expect(R6.is_minimal()).toBe(true)
+
+  expect(R5.check_fds_are_equivalent(R5.find_minimal_cover())).toBe(true)
+})
+
 // const FDRS = require('../lib/FdRelationScheme')
 // const FdRelationScheme = FDRS.FdRelationScheme
 // const set_operation = require('../lib/util').set_operation

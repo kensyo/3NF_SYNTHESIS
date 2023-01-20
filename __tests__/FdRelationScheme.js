@@ -241,6 +241,53 @@ test('Find all the keys', () => {
   expect(set_operation.is_equal(keys2_array[0], keys2_array[1])).toBe(false)
 })
 
+test('Is in 3NF?', () => {
+  const R1 = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C', 'D'],
+    [
+      [['A', 'B'], ['D']],
+      [['B'], ['C']],
+    ]
+  )
+
+  expect(R1.is_in_3NF()).toBe(false)
+
+  const R2 = new FdRelationScheme(
+    'test2',
+    ['A', 'B', 'C'],
+    [
+      [['A', 'B'], ['C']],
+    ]
+  )
+
+  const R3 = new FdRelationScheme(
+    'test3',
+    ['A', 'B'],
+    [
+      [['A'], ['B']],
+    ]
+  )
+
+  expect(R2.is_in_3NF()).toBe(true)
+  expect(R3.is_in_3NF()).toBe(true)
+
+})
+
+test('Is in BCNF?', () => {
+  const R1 = new FdRelationScheme(
+    'test_bcnf',
+    ['A', 'B', 'C'],
+    [
+      [['A', 'B'], ['C']],
+      [['C'], ['B']],
+    ]
+  )
+
+  expect(R1.is_in_3NF()).toBe(true)
+  expect(R1.is_in_BCNF()).toBe(false)
+})
+
 // const FDRS = require('../lib/FdRelationScheme')
 // const FdRelationScheme = FDRS.FdRelationScheme
 // const set_operation = require('../lib/util').set_operation

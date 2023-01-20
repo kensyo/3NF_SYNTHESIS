@@ -288,6 +288,31 @@ test('Is in BCNF?', () => {
   expect(R1.is_in_BCNF()).toBe(false)
 })
 
+test('projection check', () => {
+  const R1 = new FdRelationScheme(
+    'projection_check',
+    ['A', 'B', 'C'],
+    [
+      [['A'], ['B']],
+      [['B'], ['C']],
+      [['C'], ['A']],
+    ]
+  )
+
+  const projection = R1.get_projection(new Set(['A', 'B']))
+
+  const projected_relation_scheme = new FdRelationScheme(
+    'projection_to_AB',
+    ['A', 'B'],
+    [
+      [['A'], ['B']],
+      [['B'], ['A']],
+    ]
+  )
+
+  expect(projected_relation_scheme.check_fds_are_equivalent(projection))
+})
+
 // const FDRS = require('../lib/FdRelationScheme')
 // const FdRelationScheme = FDRS.FdRelationScheme
 // const set_operation = require('../lib/util').set_operation

@@ -313,6 +313,28 @@ test('projection check', () => {
   expect(projected_relation_scheme.check_fds_are_equivalent(projection))
 })
 
+test('Are relation schemes obtained by synthesis in 3NF?', () => {
+  const R1 = new FdRelationScheme(
+    'synthesis_check',
+    ['A', 'B', 'C', 'D', 'E'],
+    [
+      [['A'], ['C']],
+      [['B'], ['C', 'D']],
+      [['C'], ['E']],
+      [['E'], ['C']],
+      [['D'], ['B']]
+    ]
+  )
+
+  const schemes = FDRS.synthesize_into_3NF(R1)
+
+
+  for (const scheme of schemes) {
+    expect(scheme.is_in_3NF()).toBe(true)
+  }
+
+})
+
 // const FDRS = require('../lib/FdRelationScheme')
 // const FdRelationScheme = FDRS.FdRelationScheme
 // const set_operation = require('../lib/util').set_operation

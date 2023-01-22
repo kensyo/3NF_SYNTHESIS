@@ -335,6 +335,29 @@ test('Are relation schemes obtained by synthesis in 3NF?', () => {
 
 })
 
+test('Are relation schemes obtained by synthesis functional dependency preserving decomposition?', () => {
+  const R1 = new FdRelationScheme(
+    'synthesis_check',
+    ['A', 'B', 'C', 'D', 'E'],
+    [
+      [['A'], ['C']],
+      [['B'], ['C', 'D']],
+      [['C'], ['E']],
+      [['E'], ['C']],
+      [['D'], ['B']]
+    ]
+  )
+
+  const schemes = FDRS.synthesize_into_3NF(R1)
+
+  const union_of_projections = new Set()
+  for (const scheme of schemes) {
+    set_operation.union(union_of_projections, scheme.fds)
+  }
+
+  R1.check_fds_are_equivalent(union_of_projections)
+})
+
 // const FDRS = require('../lib/FdRelationScheme')
 // const FdRelationScheme = FDRS.FdRelationScheme
 // const set_operation = require('../lib/util').set_operation

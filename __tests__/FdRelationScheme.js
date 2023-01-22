@@ -1,6 +1,6 @@
 'use strict'
 
-const FDRS = require('../lib/FdRelationScheme')
+const FDRS = require('../index')
 const FdRelationScheme = FDRS.FdRelationScheme
 const set_operation = require('../lib/util').set_operation
 

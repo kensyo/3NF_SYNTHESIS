@@ -464,6 +464,42 @@ class FdRelationScheme {
   }
 
   /**
+   * check whether the scheme is in 4NF
+   *
+   * @param {Set<string>} [fds] - functional dependencies
+   * @returns {boolean}
+   */
+  is_guaranteed_in_4NF(fds = this.fds) {
+    if (!this.is_in_BCNF()) {
+      return false
+    }
+
+    const keys = this.find_all_keys()
+
+    const is_some_key_simple = set_operation.some(keys, key => key.size == 1)
+
+    return is_some_key_simple
+  }
+
+  /**
+   * check whether the scheme is in PJNF
+   *
+   * @param {Set<string>} [fds] - functional dependencies
+   * @returns {boolean}
+   */
+  is_guaranteed_in_PJNF(fds = this.fds) {
+    if (!this.is_in_BCNF()) {
+      return false
+    }
+
+    const keys = this.find_all_keys()
+
+    const is_every_key_simple = set_operation.every(keys, key => key.size == 1)
+
+    return is_every_key_simple
+  }
+
+  /**
    * find a projection of a fd set for a subset
    *
    * @param {Set<string>} subset - attributes

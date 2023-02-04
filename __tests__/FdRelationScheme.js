@@ -301,6 +301,34 @@ test('Is in BCNF?', () => {
   expect(R2.is_in_BCNF()).toBe(true)
 })
 
+test('Is the fd scheme guaranteed to be in 4NF?', () => {
+  const R1 = new FdRelationScheme(
+    'test_4nf',
+    ['A', 'B', 'C', 'D'],
+    [
+      [['A'], ['B']],
+      [['A'], ['C']],
+      [['A'], ['D']],
+    ]
+  )
+
+  expect(R1.is_guaranteed_in_4NF()).toBe(true)
+})
+
+test('Is the fd scheme guaranteed to be in PJNF?', () => {
+  const R1 = new FdRelationScheme(
+    'test_4nf',
+    ['A', 'B', 'C', 'D'],
+    [
+      [['A'], ['B']],
+      [['A'], ['C']],
+      [['A'], ['D']],
+    ]
+  )
+  expect(R1.is_guaranteed_in_PJNF()).toBe(true)
+})
+
+
 test('projection check', () => {
   const R1 = new FdRelationScheme(
     'projection_check',

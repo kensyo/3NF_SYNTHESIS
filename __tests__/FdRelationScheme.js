@@ -286,6 +286,19 @@ test('Is in BCNF?', () => {
 
   expect(R1.is_in_3NF()).toBe(true)
   expect(R1.is_in_BCNF()).toBe(false)
+
+  const R2 = new FdRelationScheme(
+    'test_bcnf2',
+    ['A', 'B', 'C', 'D'],
+    [
+      [['A'], ['B']],
+      [['A'], ['C']],
+      [['A'], ['D']],
+    ]
+  )
+
+  expect(R2.is_in_3NF()).toBe(true)
+  expect(R2.is_in_BCNF()).toBe(true)
 })
 
 test('projection check', () => {

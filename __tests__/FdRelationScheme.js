@@ -241,6 +241,35 @@ test('Find all the keys', () => {
   expect(set_operation.is_equal(keys2_array[0], keys2_array[1])).toBe(false)
 })
 
+test('Is in 2NF?', () => {
+  const U = ['A', 'B', 'C', 'D', 'E',
+    'F', 'G', 'H', 'I', 'J',
+    'K', 'L', 'M', 'N', 'O'
+  ]
+  const R1 = new FdRelationScheme(
+    'test2nf',
+    U,
+    [
+      [['A'], ['B', 'C', 'D', 'E', 'K', 'L', 'M', 'N', 'O']],
+      [['F'], ['G', 'H']],
+      [['A', 'F'], U]
+    ]
+  )
+
+  expect(R1.is_in_2NF()).toBe(false)
+
+  const R2 = new FdRelationScheme(
+    'test2',
+    ['A', 'B', 'C'],
+    [
+      [['A', 'B'], ['C']],
+    ]
+  )
+
+  expect(R2.is_in_2NF()).toBe(true)
+
+})
+
 test('Is in 3NF?', () => {
   const R1 = new FdRelationScheme(
     'test',

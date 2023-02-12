@@ -409,6 +409,37 @@ class FdRelationScheme {
   }
 
   /**
+   * check whether the scheme is in 2NF
+   *
+   * @param {Set<string>} [fds] - functional dependencies
+   * @returns {boolean}
+   */
+  is_in_2NF(fds = this.fds) {
+    const keys = this.find_all_keys(fds)
+    const prime_attributes = new Set(
+      [...keys].reduce(
+        (union, key) => set_operation.union(union, key),
+        new Set()
+      )
+    )
+    const non_prime_attributes = set_operation.difference(this.attributes, prime_attributes)
+    for (const A of non_prime_attributes) {
+      for (const key of keys) {
+        for (const attribute of key) {
+          const X = new Set(key)
+          X.delete(attribute)
+          const Xplus = this.find_closure_of_attributes(X, fds)
+          if (Xplus.has(A)) {
+            return false
+          }
+        }
+      }
+    }
+
+    return true
+  }
+
+  /**
    * check whether the scheme is in 3NF
    *
    * @param {Set<string>} [fds] - functional dependencies

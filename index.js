@@ -446,7 +446,6 @@ class FdRelationScheme {
    * @returns {boolean}
    */
   is_in_3NF(fds = this.fds) {
-    const minimal_cover = this.find_minimal_cover(fds)
     const keys = this.find_all_keys(fds)
     const prime_attributes = new Set(
       [...keys].reduce(
@@ -455,15 +454,15 @@ class FdRelationScheme {
       )
     )
 
-    for (const fd of minimal_cover) {
+    for (const fd of fds) {
       const array_fd = get_as_object(fd)
-      const X = array_fd[0]
-      const A = array_fd[1][0] // fd.rhs is a singleton because the fd is in the minimal cover
+      const X = new Set(array_fd[0])
+      const Y = new Set(array_fd[1])
+      if (set_operation.every(Y, A => X.has(A) || prime_attributes.has(A))) {
+        continue
+      }
       const Xplus = this.find_closure_of_attributes(X, fds)
-      if (
-        !set_operation.is_superset(Xplus, this.attributes) && // X is not a superkey
-        !prime_attributes.has(A) // A is not a prime attribute
-      ) {
+      if (!set_operation.is_superset(Xplus, this.attributes)) {
         return false
       }
     }

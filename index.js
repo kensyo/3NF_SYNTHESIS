@@ -477,15 +477,15 @@ class FdRelationScheme {
    * @returns {boolean}
    */
   is_in_BCNF(fds = this.fds) {
-    const minimal_cover = this.find_minimal_cover(fds)
-
-    for (const fd of minimal_cover) {
+    for (const fd of fds) {
       const array_fd = get_as_object(fd)
-      const X = array_fd[0]
+      const X = new Set(array_fd[0])
+      const Y = new Set(array_fd[1])
+      if (set_operation.every(Y, A => X.has(A))) { // i.e. X includes Y
+        continue
+      }
       const Xplus = this.find_closure_of_attributes(X, fds)
-      if (
-        !set_operation.is_superset(Xplus, this.attributes) // X is not a superkey
-      ) {
+      if (!set_operation.is_superset(Xplus, this.attributes)) { // X is not a superkey
         return false
       }
     }

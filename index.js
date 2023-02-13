@@ -383,51 +383,31 @@ class FdRelationScheme {
   /**
    * find all the keys
    *
-   * @param {Set<string>} fds - functional dependencies
+   * @param {Set<string>} [fds] - functional dependencies
    * @returns Set<Set<string>>
    */
   find_all_keys(fds = this.fds) {
-    const number_of_attributes = this.attributes.size
-    const binary_expressions = []
-
-    for (let i = 1; i < 2 ** number_of_attributes; i++) {
-      const expression = []
-      let number = i
-      for (let j = 0; j < number_of_attributes; j++) {
-        expression.push(number % 2)
-        number = number >> 1
-      }
-      binary_expressions.push(expression)
-    }
-
-    binary_expressions.sort((a, b) => {
-      const sum_of_elements_in_a = a.reduce((sum, element) => sum + element, 0)
-      const sum_of_elements_in_b = b.reduce((sum, element) => sum + element, 0)
-      return sum_of_elements_in_a - sum_of_elements_in_b
-    })
-
-    const keys = new Set()
-    const U = [...this.attributes]
-
-    for (const expression of binary_expressions) {
-      const X = new Set()
-
-      for (let i = 0; i < number_of_attributes; i++) {
-        if (expression[i] === 1) {
-          X.add(U[i])
+    const result = new Set()
+    result.add(this.find_one_key(fds))
+    for (const key of result) {
+      for (const fd of fds) {
+        const array_fd = get_as_object(fd)
+        const X = new Set(array_fd[0])
+        const Y = new Set(array_fd[1])
+        const S = set_operation.union(X, set_operation.difference(key, Y))
+        let test = true
+        for (const key2 of result) {
+          if (set_operation.is_superset(S, key2)) {
+            test = false
+          }
+        }
+        if (test) {
+          result.add(this.find_one_key(fds, S))
         }
       }
-
-      const Xplus = this.find_closure_of_attributes(X, fds)
-      if (
-        set_operation.is_superset(Xplus, this.attributes) &&
-        set_operation.every(keys, key => !set_operation.is_superset(X, key))
-      ) {
-        keys.add(X)
-      }
     }
 
-    return keys
+    return result
   }
 
   /**

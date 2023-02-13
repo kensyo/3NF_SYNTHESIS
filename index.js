@@ -359,6 +359,28 @@ class FdRelationScheme {
   }
 
   /**
+   * find one key
+   *
+   * @param {Set<string>} [fds] - functional dependencies
+   * @param {Set<string>} [superkey] - functional dependencies
+   * @returns Set<string>
+   */
+  find_one_key(fds = this.fds, superkey = this.attributes) {
+    let result = new Set(superkey)
+    for (const A of superkey) {
+      const X = new Set(result)
+      X.delete(A)
+      const Xplus = this.find_closure_of_attributes(X)
+      if (set_operation.is_superset(Xplus, this.attributes)) { // if X is a superkey
+        result = X
+      }
+    }
+
+    return result
+  }
+
+
+  /**
    * find all the keys
    *
    * @param {Set<string>} fds - functional dependencies

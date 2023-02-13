@@ -190,6 +190,28 @@ test('Find a minimal cover', () => {
   expect(R5.check_fds_are_equivalent(R5.find_minimal_cover())).toBe(true)
 })
 
+test('Find one key', () => {
+  const R1 = new FdRelationScheme(
+    'test',
+    ['A', 'B', 'C', 'D', 'E'],
+    [
+      [['A'], ['C']],
+      [['B'], ['C', 'D']],
+      [['C'], ['E']],
+      [['E'], ['C']],
+      [['D'], ['B']]
+    ]
+  )
+
+  const key = R1.find_one_key()
+
+  expect(
+    set_operation.is_equal(key, new Set(['A', 'B'])) ||
+    set_operation.is_equal(key, new Set(['A', 'D']))
+  ).toBe(true)
+
+})
+
 test('Find all the keys', () => {
   const R1 = new FdRelationScheme(
     'test',

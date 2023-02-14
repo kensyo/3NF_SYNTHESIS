@@ -542,6 +542,44 @@ class FdRelationScheme {
   }
 
   /**
+   * diagnose normality
+   *
+   * @returns {Array<number>}
+   * @description
+   * the returned value is an object that has the form
+   * {
+   *    normality: <string that means normality> // "1nf", "2nf", "3nf", "bcnf", "4nf", or "pjnf"
+   *    is_definite: <bool> // if true, the relation is in "normality" and not in higher normal form than it.
+   * }
+   */
+  diagnose_normality() {
+    const result = {
+      normality: "1",
+      is_definite: true
+    }
+
+    if (this.is_guaranteed_in_PJNF()) {
+      result.normality = "pjnf"
+      result.is_definite = true
+    } else if (this.is_guaranteed_in_4NF()) {
+      result.normality = "4nf"
+      result.is_definite = false
+    } else if (this.is_in_BCNF()) {
+      result.normality = "bcnf"
+      result.is_definite = false
+    } else if (this.is_in_3NF()) {
+      result.normality = "3nf"
+      result.is_definite = true
+    } else if (this.is_in_2NF()) {
+      result.normality = "2nf"
+      result.is_definite = true
+    }
+
+    return result
+  }
+
+
+  /**
    * find a projection of a fd set for a subset
    *
    * @param {Set<string>} subset - attributes

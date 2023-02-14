@@ -370,7 +370,7 @@ class FdRelationScheme {
     for (const A of superkey) {
       const X = new Set(result)
       X.delete(A)
-      const Xplus = this.find_closure_of_attributes(X)
+      const Xplus = this.find_closure_of_attributes(X, fds)
       if (set_operation.is_superset(Xplus, this.attributes)) { // if X is a superkey
         result = X
       }
@@ -506,7 +506,7 @@ class FdRelationScheme {
       return false
     }
 
-    const keys = this.find_all_keys()
+    const keys = this.find_all_keys(fds)
 
     const is_some_key_simple = set_operation.some(keys, key => key.size == 1)
 
@@ -524,7 +524,7 @@ class FdRelationScheme {
       return false
     }
 
-    const keys = this.find_all_keys()
+    const keys = this.find_all_keys(fds)
 
     const is_every_key_simple = set_operation.every(keys, key => key.size == 1)
 

@@ -324,6 +324,16 @@ class FdRelationScheme {
       }
     }
 
+    // step 2.5 (for efficiency, remove trivial fds)
+    for (const fd of result_fds) {
+      const array_fd = get_as_object(fd)
+      const X = new Set(array_fd[0])
+      const Y = new Set(array_fd[1])
+      if (set_operation.is_superset(X, Y)) {
+        result_fds.delete(fd)
+      }
+    }
+
     // step 3
     for (const fd of new Set(result_fds)) {
       const array_fd = get_as_object(fd)

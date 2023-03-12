@@ -117,7 +117,7 @@ function get_rhs(fd) {
   return obj[1]
 }
 
-class FdRelationScheme {
+class FdRelationschema {
   /** @type {string} */
   name;
   /** @type {Set<string>} */
@@ -264,7 +264,7 @@ class FdRelationScheme {
   }
 
   /**
-   * check whether fds of a given scheme are a minimal cover
+   * check whether fds of a given schema are a minimal cover
    *
    * @param {Set<string>} fds - functional dependencies
    * @returns {boolean}
@@ -421,7 +421,7 @@ class FdRelationScheme {
   }
 
   /**
-   * check whether the scheme is in 2NF
+   * check whether the schema is in 2NF
    *
    * @param {Set<string>} [fds] - functional dependencies
    * @returns {boolean}
@@ -452,7 +452,7 @@ class FdRelationScheme {
   }
 
   /**
-   * check whether the scheme is in 3NF
+   * check whether the schema is in 3NF
    *
    * @param {Set<string>} [fds] - functional dependencies
    * @returns {boolean}
@@ -483,7 +483,7 @@ class FdRelationScheme {
   }
 
   /**
-   * check whether the scheme is in BCNF
+   * check whether the schema is in BCNF
    *
    * @param {Set<string>} [fds] - functional dependencies
    * @returns {boolean}
@@ -506,7 +506,7 @@ class FdRelationScheme {
   }
 
   /**
-   * check whether the scheme is in 4NF
+   * check whether the schema is in 4NF
    *
    * @param {Set<string>} [fds] - functional dependencies
    * @returns {boolean}
@@ -524,7 +524,7 @@ class FdRelationScheme {
   }
 
   /**
-   * check whether the scheme is in PJNF
+   * check whether the schema is in PJNF
    *
    * @param {Set<string>} [fds] - functional dependencies
    * @returns {boolean}
@@ -638,10 +638,10 @@ class FdRelationScheme {
 }
 
 /**
- * synthesize a given fd relation scheme into a 3NF database scheme
+ * synthesize a given fd relation schema into a 3NF database schema
  *
- * @param {FdRelationScheme} R1 - fd relation scheme
- * @return {Set<FdRelationScheme>}
+ * @param {FdRelationschema} R1 - fd relation schema
+ * @return {Set<FdRelationschema>}
  */
 function synthesize_into_3NF(R1) {
   // step 1
@@ -702,7 +702,7 @@ function synthesize_into_3NF(R1) {
   let i = 1
   for (const relation_attributes of synthesis.values()) {
 
-    result.add(new FdRelationScheme(
+    result.add(new FdRelationschema(
       R1.name + '_' + i,
       relation_attributes,
       R1.get_projection(new Set(relation_attributes))
@@ -716,6 +716,6 @@ function synthesize_into_3NF(R1) {
 
 module.exports = {
   generate_fd,
-  FdRelationScheme,
+  FdRelationschema,
   synthesize_into_3NF
 }

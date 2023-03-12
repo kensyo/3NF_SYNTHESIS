@@ -554,7 +554,7 @@ class FdRelationschema {
    */
   diagnose_normality() {
     const result = {
-      normality: "1",
+      normality: "1nf",
       is_definite: true
     }
 

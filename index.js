@@ -674,10 +674,17 @@ function synthesize_into_3NF(R1) {
       }
     }
   }
-  const some_key = [...[...keys][0]]
+
+  const key_with_smallest_size = Array.from(
+    [...keys].reduce(
+      (previous_key, current_key) =>
+        previous_key.size <= current_key.size ? previous_key : current_key
+    )
+  )
+
   if (!is_key_contained) {
-    const key_stringified = JSON.stringify(some_key.sort())
-    synthesis.set(key_stringified, some_key)
+    const key_stringified = JSON.stringify(key_with_smallest_size.sort())
+    synthesis.set(key_stringified, key_with_smallest_size)
   }
 
   // step 4

@@ -1,7 +1,7 @@
 'use strict'
 
 const FDRS = require('../index')
-const FdRelationScheme = FDRS.FdRelationScheme
+const FdRelationSchema = FDRS.FdRelationSchema
 const set_operation = require('../lib/util').set_operation
 
 test('generate a fd', () => {
@@ -39,8 +39,8 @@ test('generate a fd', () => {
   expect(FDRS.generate_fd(fd1)).toBe(FDRS.generate_fd(fd2))
 });
 
-test('generate a fd relation scheme', () => {
-  const test_relation_scheme = new FdRelationScheme(
+test('generate a fd relation schema', () => {
+  const test_relation_schema = new FdRelationSchema(
     'test',
     ['A', 'B', 'C'],
     [
@@ -48,10 +48,10 @@ test('generate a fd relation scheme', () => {
     ]
   )
 
-  expect(JSON.parse([...test_relation_scheme.fds][0])).toStrictEqual([['A', 'B'], ['C']])
+  expect(JSON.parse([...test_relation_schema.fds][0])).toStrictEqual([['A', 'B'], ['C']])
 
   function throw_range_error() {
-    const test_relation_scheme2 = new FdRelationScheme(
+    const test_relation_schema2 = new FdRelationSchema(
       'test2',
       ['A', 'B', 'C'],
       [
@@ -66,7 +66,7 @@ test('generate a fd relation scheme', () => {
 })
 
 test('Find the closure of attributes', () => {
-  const R1 = new FdRelationScheme(
+  const R1 = new FdRelationSchema(
     'test_closure',
     ['A', 'B', 'C'],
     [
@@ -80,7 +80,7 @@ test('Find the closure of attributes', () => {
 })
 
 test('Check if a given fds is equivalent to the original', () => {
-  const R1 = new FdRelationScheme(
+  const R1 = new FdRelationSchema(
     'test',
     ['A', 'B', 'C'],
     [
@@ -97,8 +97,8 @@ test('Check if a given fds is equivalent to the original', () => {
 
 })
 
-test('check the fds of a scheme is a minimal cover', () => {
-  const R1 = new FdRelationScheme(
+test('check the fds of a schema is a minimal cover', () => {
+  const R1 = new FdRelationSchema(
     'test',
     ['A', 'B', 'C', 'D'],
     [
@@ -109,7 +109,7 @@ test('check the fds of a scheme is a minimal cover', () => {
 
   expect(R1.is_minimal()).toBe(true)
 
-  const R2 = new FdRelationScheme(
+  const R2 = new FdRelationSchema(
     'test',
     ['A', 'B', 'C', 'D'],
     [
@@ -123,7 +123,7 @@ test('check the fds of a scheme is a minimal cover', () => {
 })
 
 test('Find a minimal cover', () => {
-  const R1 = new FdRelationScheme(
+  const R1 = new FdRelationSchema(
     'test',
     ['A', 'B', 'C', 'D'],
     [
@@ -136,7 +136,7 @@ test('Find a minimal cover', () => {
 
   const minimal_cover_of_R1 = R1.find_minimal_cover()
 
-  const R2 = new FdRelationScheme(
+  const R2 = new FdRelationSchema(
     R1.name,
     R1.attributes,
     minimal_cover_of_R1
@@ -145,7 +145,7 @@ test('Find a minimal cover', () => {
   expect(R1.is_minimal()).toBe(false)
   expect(R2.is_minimal()).toBe(true)
 
-  const R3 = new FdRelationScheme(
+  const R3 = new FdRelationSchema(
     'test2',
     ['A', 'B', 'C'],
     [
@@ -155,7 +155,7 @@ test('Find a minimal cover', () => {
     ]
   )
 
-  const R4 = new FdRelationScheme(
+  const R4 = new FdRelationSchema(
     R3.name,
     R3.attributes,
     R3.find_minimal_cover()
@@ -164,7 +164,7 @@ test('Find a minimal cover', () => {
   expect(R3.is_minimal()).toBe(false)
   expect(R4.is_minimal()).toBe(true)
 
-  const R5 = new FdRelationScheme(
+  const R5 = new FdRelationSchema(
     'test4minimal',
     ['B', 'C', 'D'],
     [
@@ -178,7 +178,7 @@ test('Find a minimal cover', () => {
     ]
   )
 
-  const R6 = new FdRelationScheme(
+  const R6 = new FdRelationSchema(
     R5.name,
     R5.attributes,
     R5.find_minimal_cover()
@@ -191,7 +191,7 @@ test('Find a minimal cover', () => {
 })
 
 test('Find one key', () => {
-  const R1 = new FdRelationScheme(
+  const R1 = new FdRelationSchema(
     'test',
     ['A', 'B', 'C', 'D', 'E'],
     [
@@ -213,7 +213,7 @@ test('Find one key', () => {
 })
 
 test('Find all the keys', () => {
-  const R1 = new FdRelationScheme(
+  const R1 = new FdRelationSchema(
     'test',
     ['A', 'B', 'C', 'D', 'E'],
     [
@@ -239,7 +239,7 @@ test('Find all the keys', () => {
   const keys_array = [...keys]
   expect(set_operation.is_equal(keys_array[0], keys_array[1])).toBe(false)
 
-  const R2 = new FdRelationScheme(
+  const R2 = new FdRelationSchema(
     'test2',
     ['I', 'A', 'S'],
     [
@@ -268,7 +268,7 @@ test('Is in 2NF?', () => {
     'F', 'G', 'H', 'I', 'J',
     'K', 'L', 'M', 'N', 'O'
   ]
-  const R1 = new FdRelationScheme(
+  const R1 = new FdRelationSchema(
     'test2nf',
     U,
     [
@@ -280,7 +280,7 @@ test('Is in 2NF?', () => {
 
   expect(R1.is_in_2NF()).toBe(false)
 
-  const R2 = new FdRelationScheme(
+  const R2 = new FdRelationSchema(
     'test2',
     ['A', 'B', 'C'],
     [
@@ -293,7 +293,7 @@ test('Is in 2NF?', () => {
 })
 
 test('Is in 3NF?', () => {
-  const R1 = new FdRelationScheme(
+  const R1 = new FdRelationSchema(
     'test',
     ['A', 'B', 'C', 'D'],
     [
@@ -304,7 +304,7 @@ test('Is in 3NF?', () => {
 
   expect(R1.is_in_3NF()).toBe(false)
 
-  const R2 = new FdRelationScheme(
+  const R2 = new FdRelationSchema(
     'test2',
     ['A', 'B', 'C'],
     [
@@ -312,7 +312,7 @@ test('Is in 3NF?', () => {
     ]
   )
 
-  const R3 = new FdRelationScheme(
+  const R3 = new FdRelationSchema(
     'test3',
     ['A', 'B'],
     [
@@ -326,7 +326,7 @@ test('Is in 3NF?', () => {
 })
 
 test('Is in BCNF?', () => {
-  const R1 = new FdRelationScheme(
+  const R1 = new FdRelationSchema(
     'test_bcnf',
     ['A', 'B', 'C'],
     [
@@ -338,7 +338,7 @@ test('Is in BCNF?', () => {
   expect(R1.is_in_3NF()).toBe(true)
   expect(R1.is_in_BCNF()).toBe(false)
 
-  const R2 = new FdRelationScheme(
+  const R2 = new FdRelationSchema(
     'test_bcnf2',
     ['A', 'B', 'C', 'D'],
     [
@@ -352,8 +352,8 @@ test('Is in BCNF?', () => {
   expect(R2.is_in_BCNF()).toBe(true)
 })
 
-test('Is the fd scheme guaranteed to be in 4NF?', () => {
-  const R1 = new FdRelationScheme(
+test('Is the fd schema guaranteed to be in 4NF?', () => {
+  const R1 = new FdRelationSchema(
     'test_4nf',
     ['A', 'B', 'C', 'D'],
     [
@@ -366,8 +366,8 @@ test('Is the fd scheme guaranteed to be in 4NF?', () => {
   expect(R1.is_guaranteed_in_4NF()).toBe(true)
 })
 
-test('Is the fd scheme guaranteed to be in PJNF?', () => {
-  const R1 = new FdRelationScheme(
+test('Is the fd schema guaranteed to be in PJNF?', () => {
+  const R1 = new FdRelationSchema(
     'test_4nf',
     ['A', 'B', 'C', 'D'],
     [
@@ -381,7 +381,7 @@ test('Is the fd scheme guaranteed to be in PJNF?', () => {
 
 
 test('projection check', () => {
-  const R1 = new FdRelationScheme(
+  const R1 = new FdRelationSchema(
     'projection_check',
     ['A', 'B', 'C'],
     [
@@ -393,7 +393,7 @@ test('projection check', () => {
 
   const projection = R1.get_projection(new Set(['A', 'B']))
 
-  const projected_relation_scheme = new FdRelationScheme(
+  const projected_relation_schema = new FdRelationSchema(
     'projection_to_AB',
     ['A', 'B'],
     [
@@ -402,11 +402,11 @@ test('projection check', () => {
     ]
   )
 
-  expect(projected_relation_scheme.check_fds_are_equivalent(projection))
+  expect(projected_relation_schema.check_fds_are_equivalent(projection))
 })
 
-test('Are relation schemes obtained by synthesis in 3NF?', () => {
-  const R1 = new FdRelationScheme(
+test('Are relation schemas obtained by synthesis in 3NF?', () => {
+  const R1 = new FdRelationSchema(
     'synthesis_check',
     ['A', 'B', 'C', 'D', 'E'],
     [
@@ -418,17 +418,17 @@ test('Are relation schemes obtained by synthesis in 3NF?', () => {
     ]
   )
 
-  const schemes = FDRS.synthesize_into_3NF(R1)
+  const schemas = FDRS.synthesize_into_3NF(R1)
 
 
-  for (const scheme of schemes) {
-    expect(scheme.is_in_3NF()).toBe(true)
+  for (const schema of schemas) {
+    expect(schema.is_in_3NF()).toBe(true)
   }
 
 })
 
-test('Are relation schemes obtained by synthesis functional dependency preserving decomposition?', () => {
-  const R1 = new FdRelationScheme(
+test('Are relation schemas obtained by synthesis functional dependency preserving decomposition?', () => {
+  const R1 = new FdRelationSchema(
     'synthesis_check',
     ['A', 'B', 'C', 'D', 'E'],
     [
@@ -440,11 +440,11 @@ test('Are relation schemes obtained by synthesis functional dependency preservin
     ]
   )
 
-  const schemes = FDRS.synthesize_into_3NF(R1)
+  const schemas = FDRS.synthesize_into_3NF(R1)
 
   const union_of_projections = new Set()
-  for (const scheme of schemes) {
-    set_operation.union(union_of_projections, scheme.fds)
+  for (const schema of schemas) {
+    set_operation.union(union_of_projections, schema.fds)
   }
 
   R1.check_fds_are_equivalent(union_of_projections)
